@@ -1,0 +1,1 @@
+export const uri = 'http://192.168.173.214:3000'
