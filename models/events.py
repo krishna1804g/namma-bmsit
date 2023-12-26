@@ -37,8 +37,21 @@ class Event:
     @classmethod
     def fetch_all_events_data(cls):
         try:
-            all_events_data = events_collection.find({}, {"_id":0})
+            all_events_data = events_collection.find()
             return list(all_events_data)
         except pymongo.errors.PymongoError as e:
             raise ValueError( f" Error: { str(e) } " ) 
         
+    @classmethod
+    def get_event_by_id(cls, event_id):
+        try:
+            event_curssor = events_collection.find_one({"_id":event_id})
+            if not event_curssor:
+                raise ValueError("No article found..")
+            
+            event_curssor["_id"] = str(event_curssor["_id"])
+            
+            return event_curssor
+        except pymongo.errors.PymongoError as e:
+            raise ValueError( f" Error: { str(e) } " ) 
+                
