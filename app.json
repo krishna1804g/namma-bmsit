@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/Images/bms.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.raghu029.nammabmsit"

@@ -14,8 +14,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { uri } from "../../constants/globalvariable";
-import { requireNativeModule } from "expo";
-// import EventDetailsScreen from "./EventDetailsScreen";
+import EventDetails from "./eventdetails";
 
 const Events = ({ navigation }) => {
   const [selectedDepartment, setSelectedDepartment] = useState(null);
@@ -55,7 +54,7 @@ const Events = ({ navigation }) => {
 
   const eventsDetail = () => {
     axios
-      .get(`${uri}/`)
+      .get(`${uri}/events/`)
       .then((resp) => {
         const response = resp.data;
         console.log(response);
@@ -77,12 +76,12 @@ const Events = ({ navigation }) => {
   }, []);
 
   const handleEventPress = (event) => {
-    // navigation.navigate("EventDetails", { event }); // Navigate to EventDetailsScreen
+     navigation.navigate("EventDetails", { event }); // Navigate to EventDetailsScreen
   };
 
   const EventCard = ({ event }) => {
     return (
-      <View style={styles.card}>
+      <TouchableOpacity style={styles.card}  onPress={() => handleEventPress(event)}>
         <View style={{ flexDirection: "row",alignItems: "center"}}>
           <Image
             source={{ uri: event.image_url }}
@@ -106,7 +105,7 @@ const Events = ({ navigation }) => {
             <Text style={styles.listregister}>{">"}</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -188,7 +187,7 @@ const Events = ({ navigation }) => {
           <FlatList
             data={filteredEvents}
             renderItem={renderEventCard}
-            keyExtractor={(item) => Math.random()}
+            keyExtractor={(item) => item._id}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}
