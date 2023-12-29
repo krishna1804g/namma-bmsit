@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import {Splash,Signin, Parent, Events} from "../screens";
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import EventDetails from "../screens/events/eventdetails";
+import AddEvents from "../screens/events/addevents";
 
 
 const Stack = createNativeStackNavigator();
@@ -37,6 +38,11 @@ const AppNavigator = () => {
           <Stack.Screen
             name="EventDetails"
             component={EventDetails}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AddEvents"
+            component={AddEvents}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

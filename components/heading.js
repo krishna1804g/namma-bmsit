@@ -48,7 +48,7 @@ heading: {
     top:3,
     left: 25,
     color: "blue",
-    fontFamily: "Roboto6",
+
     fontSize: 15,
     backgroundColor: "white",
     borderRadius: 20,

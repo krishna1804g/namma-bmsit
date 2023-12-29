@@ -66,112 +66,112 @@ const EventDetails= () => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{event.title}</Text>
       </View>
-      <ScrollView style={{ marginBottom: 50 }}>
-        <View
-          style={{ backgroundColor: "white", marginTop: 20, borderRadius: 20 }}
-        >
-          <Image
-            source={{ uri: event.image_url }}
-            style={{
-              width: "90%",
-              height: 350,
-              marginTop: 20,
-              marginBottom: 20,
-              borderRadius: 20,
-              alignSelf: "center",
-            }}
-          />
+      <ScrollView style={{ marginBottom: 50}} showsVerticalScrollIndicator={false}>
+        <View style={{backgroundColor:"white",width:"90%",alignSelf:"center",marginTop:20,borderRadius:20,elevation:10,marginBottom:20}}>
+            <View
+              style={{ backgroundColor: "white", marginTop: 20, borderRadius: 20 }}
+            >
+              <Image
+                source={{ uri: event.image_url }}
+                style={{
+                  width: "90%",
+                  height: 350,
+                  marginTop: 20,
+                  marginBottom: 20,
+                  borderRadius: 20,
+                  alignSelf: "center",
+                }}
+              />
+            </View>
+            {/* <Text style={styles.listdate}> MAIN COORDINATORS: RAGHAV KUMAR JHA </Text> */}
+            <View style={{ flexDirection: "row", marginTop: 10, marginLeft: 10 }}>
+              <Ionicons
+                name="calendar"
+                size={30}
+                color="#D9104C"
+                style={styles.icon}
+              />
+              <Text style={styles.listdate}>{event.date_of_event}</Text>
+            </View>
+            <View style={{ flexDirection: "row", marginTop: 10, marginLeft: 10 }}>
+              <Ionicons name="time" size={30} color="#D9104C" style={styles.icon} />
+              <Text style={styles.listdate}>{event.time_of_event}</Text>
+            </View>
+            <View style={{ flexDirection: "row", marginTop: 10, marginLeft: 10 }}>
+              <Ionicons
+                name="location"
+                size={30}
+                color="#D9104C"
+                style={styles.icon}
+              />
+              <Text style={styles.listdate}>{event.venue}</Text>
+            </View>
+            <View style={{ flexDirection: "row", marginTop: 10, marginLeft: 10 }}>
+              <Ionicons
+                name="wallet"
+                size={30}
+                color="#D9104C"
+                style={styles.icon}
+              />
+              <Text style={styles.listdate}>{event.amount}</Text>
+            </View>
+            <Text style={styles.listdescrip}>EVENT DESCRIPTION:</Text>
+            <View
+              style={{
+                width: "80%",
+                backgroundColor: "white",
+                alignSelf: "center",
+                borderRadius: 15,
+              }}
+            >
+              <Text style={{ padding: 10, fontSize:15, }}>{event.description}</Text>
+            </View>
+            <Text style={styles.listdescrip}> RULES AND REGULATION:</Text>
+            <ScrollView
+              style={{
+                width: "90%",
+                backgroundColor: "white",
+                alignSelf: "center",
+                borderRadius: 15,
+                padding:5
+              }}
+            >
+              <Text style={styles.text}>
+                1.Collaboration is not encouraged and the prize money goes to the
+                one winner of the event. We shall not be responsible for splitting
+                winnings.
+              </Text>
+              <Text style={styles.text}>
+                2. All participants must stay within the campus walls. The game
+                shall not require participants to exit the campus for clues.
+              </Text>
+              <Text style={styles.text}>
+                3. Participants are free to use mobiles to communicate with each
+                other or look up solutions for technical puzzles or any other
+                activity.
+              </Text>
+              <Text style={styles.text}>
+                3. Participants are free to use mobiles to communicate with each
+                other or look up solutions for technical puzzles or any other
+                activity.
+              </Text>
+            
+            </ScrollView>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#D9104C",
+                borderRadius: 20,
+                height: 35,
+                marginTop: 20,
+                width: "80%",
+                alignSelf: "center",
+                marginBottom: 20,
+              }}
+              onPress={() => handleEventPress(event.id)}
+            >
+              <Text style={styles.book}>{isEventBooked ? "Booked" : "BOOK"}</Text>
+            </TouchableOpacity>
         </View>
-        {/* <Text style={styles.listdate}> MAIN COORDINATORS: RAGHAV KUMAR JHA </Text> */}
-        <View style={{ flexDirection: "row", marginTop: 10, marginLeft: 10 }}>
-          <Ionicons
-            name="calendar"
-            size={30}
-            color="#D9104C"
-            style={styles.icon}
-          />
-          <Text style={styles.listdate}>{event.date_of_event}</Text>
-        </View>
-        <View style={{ flexDirection: "row", marginTop: 10, marginLeft: 10 }}>
-          <Ionicons name="time" size={30} color="#D9104C" style={styles.icon} />
-          <Text style={styles.listdate}>{event.time_of_event}</Text>
-        </View>
-        <View style={{ flexDirection: "row", marginTop: 10, marginLeft: 10 }}>
-          <Ionicons
-            name="location"
-            size={30}
-            color="#D9104C"
-            style={styles.icon}
-          />
-          <Text style={styles.listdate}>{event.venue}</Text>
-        </View>
-        <View style={{ flexDirection: "row", marginTop: 10, marginLeft: 10 }}>
-          <Ionicons
-            name="wallet"
-            size={30}
-            color="#D9104C"
-            style={styles.icon}
-          />
-          <Text style={styles.listdate}>{event.amount}</Text>
-        </View>
-
-        <Text style={styles.listdescrip}>EVENT DESCRIPTION:</Text>
-        <View
-          style={{
-            width: "80%",
-            backgroundColor: "white",
-            alignSelf: "center",
-            borderRadius: 15,
-          }}
-        >
-          <Text style={{ padding: 10, fontSize:15, }}>{event.description}</Text>
-        </View>
-
-        <Text style={styles.listdescrip}> RULES AND REGULATION:</Text>
-        <ScrollView
-          style={{
-            width: "80%",
-            backgroundColor: "white",
-            alignSelf: "center",
-            borderRadius: 15,
-            padding:5
-          }}
-        >
-          <Text style={styles.text}>
-            1.Collaboration is not encouraged and the prize money goes to the
-            one winner of the event. We shall not be responsible for splitting
-            winnings.
-          </Text>
-          <Text style={styles.text}>
-            2. All participants must stay within the campus walls. The game
-            shall not require participants to exit the campus for clues.
-          </Text>
-          <Text style={styles.text}>
-            3. Participants are free to use mobiles to communicate with each
-            other or look up solutions for technical puzzles or any other
-            activity.
-          </Text>
-          <Text style={styles.text}>
-            3. Participants are free to use mobiles to communicate with each
-            other or look up solutions for technical puzzles or any other
-            activity.
-          </Text>
-          
-        </ScrollView>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#D9104C",
-            borderRadius: 20,
-            height: 35,
-            marginTop: 20,
-            width: "80%",
-            alignSelf: "center",
-            marginBottom: 20,
-          }}
-          onPress={() => handleEventPress(event.id)}
-        >
-          <Text style={styles.book}>{isEventBooked ? "Booked" : "BOOK"}</Text>
-        </TouchableOpacity>
       </ScrollView>
     </View>
   );
@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 25,
+    fontWeight:"bold",
     color: "#000",
     marginTop: 20,
     textAlign: "center",
@@ -208,6 +209,7 @@ const styles = StyleSheet.create({
   },
   listdescrip: {
     fontSize: 25,
+    fontWeight:"bold",
     marginLeft: 20,
     textTransform: "capitalize",
     marginTop: 20,
@@ -226,6 +228,7 @@ const styles = StyleSheet.create({
     fontSize:15,
     marginTop:10,
     justifyContent:"center",
-    alignSelf:"center" 
+    alignSelf:"center" ,
+    textAlign:"justify"
   }
 });

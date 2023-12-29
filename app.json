@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "namma-bmsit",
-    "slug": "namma-bmsit",
+    "name": "NAMMA BMSITM",
+    "slug": "NAMMA BMSITM",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/Images/bms.png",
@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/Images/bms.png",
+        "foregroundImage": "./assets/adaptive-icon2.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.raghu029.nammabmsit"

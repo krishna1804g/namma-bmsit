@@ -1,1 +1,1 @@
-export const uri = 'http://192.168.9.114:3000'
+export const uri = 'https://bytemorfix.com'
