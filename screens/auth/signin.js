@@ -43,7 +43,7 @@ const Signin = ({ navigation }) => {
   };
   // handel forgot password
   const handleForgotPassword = () => {
-    navigation.navigate("forgetpassword");
+    navigation.navigate("Otp");
   };
   // toggle pasword visibility
   const togglePasswordVisibility = () => {
@@ -76,7 +76,7 @@ const Signin = ({ navigation }) => {
         <Icon name="user" size={20} color="#808080" style={styles.inputIcon} />
         <TextInput
           style={styles.input}
-          placeholder="Username"
+          placeholder="Username / Email"
           onChangeText={(text) => setUsername(text)}
           value={username}
         />
@@ -103,7 +103,7 @@ const Signin = ({ navigation }) => {
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.LoginbuttonText}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleForgotPassword}>
+          <TouchableOpacity onPress={handleForgotPassword}style={{marginTop:20}}>
             <Text style={styles.forgotPassword}>
               Forgot Password? Click here
             </Text>

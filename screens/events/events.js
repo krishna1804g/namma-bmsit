@@ -51,38 +51,91 @@ const Events = ({ navigation }) => {
     setSelectedDepartment(null);
     setSelectedClub(null);
   };
+  // Define a static event object
+  const event = [
+    {
+      _id: "1",
+      title: "Sample Event",
+      date_of_event: "2024-05-03",
+      image_url:
+        "https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15-1024x768.jpg",
+      description: "This is a sample event description.",
+    },
 
-  const eventsDetail = () => {
-    axios
-      .get(`${uri}/events/`)
-      .then((resp) => {
-        const response = resp.data;
-        console.log(response);
-        if (Array.isArray(response)) {
-          setAllDeptEvents(response);
-          setFilteredEvents(response);
-        } else {
-          const result = [resp.data];
-          setAllDeptEvents(result);
-          setFilteredEvents(result);
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
+    {
+      _id: "2",
+      title: "Sample Event 2",
+      date_of_event: "2024-05-03",
+      image_url:
+        "https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15-1024x768.jpg",
+      description: "This is a sample event description.",
+    },
+    {
+      _id: "3",
+      title: "Sample Event 2",
+      date_of_event: "2024-05-03",
+      image_url:
+        "https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15-1024x768.jpg",
+      description: "This is a sample event description.",
+    },
+    {
+      _id: "4",
+      title: "Sample Event 2",
+      date_of_event: "2024-05-03",
+      image_url:
+        "https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15-1024x768.jpg",
+      description: "This is a sample event description.",
+    },
+    {
+      _id: "5",
+      title: "Sample Event 2",
+      date_of_event: "2024-05-03",
+      image_url:
+        "https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15-1024x768.jpg",
+      description: "This is a sample event description.",
+    },
+  ];
+
   useEffect(() => {
-    eventsDetail(); // Call the function eventsDetail() with parentheses to invoke it
+    // 
+    setAllEvents(event);
+    setFilteredEvents(event);
   }, []);
 
+  const eventsDetail = () => {
+    // axios
+    //   .get(`${uri}/get/events`)
+    //   .then((resp) => {
+    //     const response = resp.data;
+    //     console.log(response);
+    //     if (Array.isArray(response)) {
+    //       setAllDeptEvents(response);
+    //       setFilteredEvents(response);
+    //     } else {
+    //       const result = [resp.data];
+    //       setAllDeptEvents(result);
+    //       setFilteredEvents(result);
+    //     }
+    //   })
+    //   .catch((e) => {
+    //     console.error(e);
+    //   });
+  };
+  // useEffect(() => {
+  //   eventsDetail(); // Call the function eventsDetail() with parentheses to invoke it
+  // }, []);
+
   const handleEventPress = (event) => {
-     navigation.navigate("EventDetails", { event }); // Navigate to EventDetailsScreen
+    navigation.navigate("EventDetails", { event }); // Navigate to EventDetailsScreen
   };
 
-  const EventCard = ({ event }) => {
+  const EventCard = ({ event, navigation }) => {
     return (
-      <TouchableOpacity style={styles.card}  onPress={() => handleEventPress(event)}>
-        <View style={{ flexDirection: "row",alignItems: "center"}}>
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => handleEventPress(event)}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Image
             source={{ uri: event.image_url }}
             style={{
@@ -93,7 +146,9 @@ const Events = ({ navigation }) => {
               borderColor: "black",
             }}
           />
-          <View style={{flex:1,justifyContent:"flex-start",marginLeft:10}}>
+          <View
+            style={{ flex: 1, justifyContent: "flex-start", marginLeft: 10 }}
+          >
             <Text style={styles.listtitle}>{event.title}</Text>
             <Text style={styles.listdate}> Date: {event.date_of_event}</Text>
           </View>
@@ -135,7 +190,10 @@ const Events = ({ navigation }) => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>EVENTS</Text>
       </View>
-      <View style={styles.searchContainer}>
+
+      {/* //search bar */}
+
+      {/* <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
           placeholder="Search..."
@@ -149,8 +207,8 @@ const Events = ({ navigation }) => {
         >
           <Text style={styles.filterButtonText}>Filter</Text>
         </TouchableOpacity>
-      </View>
-      <Modal
+      </View> */}
+      {/* <Modal
         visible={modalVisible}
         animationType="slide"
         transparent={true}
@@ -179,7 +237,8 @@ const Events = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
+
       <View style={styles.container}>
         {selectedEvent ? (
           <EventDetailsScreen event={selectedEvent} />
@@ -187,7 +246,7 @@ const Events = ({ navigation }) => {
           <FlatList
             data={filteredEvents}
             renderItem={renderEventCard}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(item,index) => index.toString()}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}
@@ -216,7 +275,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 25,
     color: "#000",
-   
+
     marginTop: 20,
     right: 150,
   },
@@ -288,32 +347,28 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     elevation: 2,
   },
-  insidecard:{
+  insidecard: {
     backgroundColor: "#D9104C",
     borderRadius: 20,
     width: 40,
     height: 40,
-    justifyContent:"center",
-    alignContent:"center",
-    alignItems:"center"
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
   },
   listtitle: {
-   
     fontSize: 25,
     marginBottom: 10,
   },
   listdate: {
-    
     fontSize: 15,
   },
   listdescrip: {
-   
     fontSize: 12,
     marginLeft: 10,
     textAlign: "center",
   },
   listregister: {
-    
     fontSize: 25,
     color: "#CFC7D9",
   },

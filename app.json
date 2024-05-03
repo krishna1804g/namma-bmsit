@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "NAMMA BMSITM",
-    "slug": "NAMMA BMSITM",
+    "slug": "namma-bmsit",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/Images/bms.png",

@@ -2,10 +2,8 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import {Splash,Signin, Parent, Events} from "../screens";
+import {Splash,Signin, Parent, Events, Signup, Otp, EventDetails, AddEvents, Bookevent} from "../screens";
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import EventDetails from "../screens/events/eventdetails";
-import AddEvents from "../screens/events/addevents";
 
 
 const Stack = createNativeStackNavigator();
@@ -21,8 +19,18 @@ const AppNavigator = () => {
             options={{ headerShown: false }}
           />
           <Stack.Screen
+            name="Signup"
+            component={Signup}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
             name="Signin"
             component={Signin}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Otp"
+            component={Otp}
             options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -43,6 +51,11 @@ const AppNavigator = () => {
           <Stack.Screen
             name="AddEvents"
             component={AddEvents}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="BookEvents"
+            component={Bookevent}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
