@@ -57,9 +57,14 @@ const Events = ({ navigation }) => {
       _id: "1",
       title: "Sample Event",
       date_of_event: "2024-05-03",
+      time_of_event:"9:00 AM",
+      venue:"kutira",
+      amount:"free",
       image_url:
         "https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15-1024x768.jpg",
       description: "This is a sample event description.",
+      team_size:"4",
+      total_participants:"200"
     },
 
     {
@@ -240,11 +245,12 @@ const Events = ({ navigation }) => {
       </Modal> */}
 
       <View style={styles.container}>
-        {selectedEvent ? (
+        {/* {selectedEvent ? (
           <EventDetailsScreen event={selectedEvent} />
-        ) : (
+        ) : ( */}
           <FlatList
             data={filteredEvents}
+            showsVerticalScrollIndicator={false}
             renderItem={renderEventCard}
             keyExtractor={(item,index) => index.toString()}
             refreshControl={
@@ -254,7 +260,7 @@ const Events = ({ navigation }) => {
               />
             }
           />
-        )}
+        {/* )} */}
       </View>
     </View>
   );

@@ -11,12 +11,15 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { uri } from "../../constants/globalvariable";
+import BottomSheetModal from '../../components/models/BottomSheet';
+import { Button } from "react-native";
 
 const EventDetails= () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { event } = route.params; // Access the passed event parameter
   const [isEventBooked, setIsEventBooked] = useState(false); // Track booking status
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
 
   const getAppliedEventsIds = () => {
     axios
@@ -36,23 +39,25 @@ const EventDetails= () => {
     getAppliedEventsIds();
   }, []);
 
-  const handleEventPress = (eventId) => {
-    if (isEventBooked) {
-      // Show an alert that the event is already booked
-      alert("You have already booked this event.");
-    } else {
-      axios
-        .post(`${uri}/apply/event`, {
-          event_id: eventId,
-        })
-        .then((resp) => {
-          console.log(resp.data);
-          setIsEventBooked(true); // Update the booked state
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-    }
+  const handleEventPress = () => {
+    // if (isEventBooked) {
+    //   // Show an alert that the event is already booked
+    //   alert("You have already booked this event.");
+    // } else {
+    //   axios
+    //     .post(`${uri}/apply/event`, {
+    //       event_id: eventId,
+    //     })
+    //     .then((resp) => {
+    //       console.log(resp.data);
+    //       setIsEventBooked(true); // Update the booked state
+    //     })
+    //     .catch((e) => {
+    //       console.error(e);
+    //     });
+    // }
+    
+    setShowBottomSheet(true);
   };
   return (
     <View style={{ marginBottom: 20 }}>
@@ -157,7 +162,7 @@ const EventDetails= () => {
               </Text>
             
             </ScrollView>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{
                 backgroundColor: "#D9104C",
                 borderRadius: 20,
@@ -169,8 +174,11 @@ const EventDetails= () => {
               }}
               onPress={() => handleEventPress(event.id)}
             >
+              {showBottomSheet && <BottomSheetModal />}
               <Text style={styles.book}>{isEventBooked ? "Booked" : "BOOK"}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+             <Button title="Open Bottom Sheet" onPress={handleEventPress} />
+            {showBottomSheet && <BottomSheetModal />}
         </View>
       </ScrollView>
     </View>
