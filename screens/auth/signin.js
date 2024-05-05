@@ -14,41 +14,66 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ScreenWidth } from "@rneui/themed/dist/config";
 import {images} from "../../constants"
+import axios from 'axios';
+import url from '../../globalVariable/apiEndpoint'
 
 const Signin = ({ navigation }) => {
-  const [userResp, setUserResp] = useState("");
-  const [username, setUsername] = useState("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [errors, setErrors] = useState({});
 
 
-  // handel user login
-   const handleLogin =  async () => {
-  //   try {
-  //     const resp = await httpClient.post(`${uri}/login`, {
-  //       username,
-  //       password
-  //     });
-  //     setUserResp(resp.data)
-  //     console.log(userResp)
-  //     if (resp.status === 200)
-         navigation.navigate("Parent");
-  //   } catch (error) {
-  //     if (error.response.status === 401)
-  //       console.log("invalid user")
-  //     else
-  //       console.log("invalid password")
+  const handleLogin = async () => {
+    let formErrors = {};
 
-  //   }
+    // Check if username or email is filled
+    if (!usernameOrEmail) {
+      formErrors.usernameOrEmail = "Username or email is required";
+    }
+    // Check if password is filled
+    if (!password) {
+      formErrors.password = "Password is required";
+    }
+
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+    } else {
+      try{
+        const response = await axios.post(`${url}/student/signin`, {
+          usernameOrEmail,
+          password
+        })
+        console.log("data is there dwtgoib", response)
+        if(response.status === 200 && response.data.data.isEmailVerified){
+          console.log("ooh")
+          navigation.navigate("Parent");
+        }
+        else if(response.status === 200 && !response.data.isEmailVerified){
+          // otp code
+        }
+          
+      } catch (error) {
+        if(error.response && error.response.status === 409){
+          alert("email already exists")
+        }
+        if(error.response.status === 500){
+          alert("error signing up!")
+        }
+      }
+    }
   };
+
   // handel forgot password
   const handleForgotPassword = () => {
     navigation.navigate("Otp");
   };
+
   // toggle pasword visibility
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
+
   // redirect to register page
   const handleSignup = () => {
     navigation.navigate("Signup");
@@ -56,7 +81,6 @@ const Signin = ({ navigation }) => {
   
 
   return (
-      
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={styles.container}>
           <ImageBackground
@@ -72,34 +96,36 @@ const Signin = ({ navigation }) => {
           </Text>
 
           <View style={{width:350,alignItems:'center',top:40}}>
-      <View style={styles.inputContainer}>
-        <Icon name="user" size={20} color="#808080" style={styles.inputIcon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Username / Email"
-          onChangeText={(text) => setUsername(text)}
-          value={username}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Icon name="lock" size={20} color="#808080" style={styles.inputIcon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={!isPasswordVisible}
-        />
-        <TouchableOpacity onPress={togglePasswordVisibility}>
-          <Icon
-            name={isPasswordVisible ? 'eye-slash' : 'eye'}
-            size={20}
-            color="#808080"
-            style={styles.passwordIcon}
-          />
-        </TouchableOpacity>
-      </View>
-    </View>
+          <View style={styles.inputContainer}>
+            <Icon name="user" size={20} color="#808080" style={styles.inputIcon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Username / Email"
+              onChangeText={(text) => setUsernameOrEmail(text)}
+              value={usernameOrEmail}
+            />
+          </View>
+          {errors.usernameOrEmail && <Text style={styles.error}>{errors.usernameOrEmail}</Text>}
+          <View style={styles.inputContainer}>
+            <Icon name="lock" size={20} color="#808080" style={styles.inputIcon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              onChangeText={(text) => setPassword(text)}
+              value={password}
+              secureTextEntry={!isPasswordVisible}
+            />
+            <TouchableOpacity onPress={togglePasswordVisibility}>
+              <Icon
+                name={isPasswordVisible ? 'eye-slash' : 'eye'}
+                size={20}
+                color="#808080"
+                style={styles.passwordIcon}
+              />
+            </TouchableOpacity>
+          </View>
+          {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+        </View>
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.LoginbuttonText}>Login</Text>
           </TouchableOpacity>
@@ -197,7 +223,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000000',
   },
-
+  error: {
+    color: "red",
+    marginBottom: 5,
+    alignItems: "flex-start"
+  },
 });
 
 export default Signin;
