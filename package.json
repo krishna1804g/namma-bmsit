@@ -20,7 +20,7 @@
     "@react-navigation/native-stack": "^6.9.17",
     "@rneui/base": "^4.0.0-rc.8",
     "@rneui/themed": "^4.0.0-rc.8",
-    "axios": "^1.6.2",
+    "axios": "^1.6.8",
     "expo": "~49.0.15",
     "expo-blur": "~12.4.1",
     "expo-image-picker": "~14.3.2",

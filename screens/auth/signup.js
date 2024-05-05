@@ -14,41 +14,175 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ScreenWidth } from "@rneui/themed/dist/config";
 import {images} from "../../constants"
+import axios from 'axios';
+import url from '../../globalVariable/apiEndpoint'
 
 const Signup = ({ navigation }) => {
-  const [userResp, setUserResp] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  // const [userResp, setUserResp] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+      firstName: "",
+      lastName: "",
+      userName: "",
+      usn : "",
+      department: "",
+      semester  : "",
+      phoneNo : "",
+      email: "",
+      password: ""
+  })
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [errors, setErrors] = useState({})
 
+  const handleInputChange = (key, value) => {
+    setFormData({
+      ...formData,
+      [key]: value
+    })
 
-  // handel user login
-   const handleLogin =  async () => {
-  //   try {
-  //     const resp = await httpClient.post(`${uri}/login`, {
-  //       username,
-  //       password
-  //     });
-  //     setUserResp(resp.data)
-  //     console.log(userResp)
-  //     if (resp.status === 200)
-         navigation.navigate("Parent");
-  //   } catch (error) {
-  //     if (error.response.status === 401)
-  //       console.log("invalid user")
-  //     else
-  //       console.log("invalid password")
+    setErrors({
+      ...errors,
+      [key]: ""
+    })
+  }
 
-  //   }
+  // Handle user registration
+  const handleSignup = async () => {
+    let formErrors = {};
+
+    // check firstName
+    if(!formData.firstName){
+      formErrors.firstName = "First name is required";
+    }
+
+    // check lastName
+    if(!formData.lastName){
+      formErrors.lastName = "Last name is required";
+    }
+
+    // contact number
+    if(!formData.phoneNo){
+      formErrors.phoneNo = "Contact number is required"
+    }else if(!isValidContactNo(formData.phoneNo)){
+      formErrors.phoneNo = "Not a valid contact number"
+    }
+
+    // usn
+    if(!formData.usn){
+      formErrors.usn = "Usn required"
+    }
+
+    // department
+    if(!formData.department){
+      formErrors.department = "Department required"
+    }
+    
+    // semester
+    if(!formData.semester){
+      formErrors.semester = "Semester required"
+    }
+
+    // email
+    if(!formData.email){
+      formErrors.email = "Email required"
+    } else if (!isValidEmail(formData.email)){
+      formErrors.email = "please enter bmsit official email"
+    }
+
+    // username
+    if(!formData.userName){
+      formErrors.userName = "Username required"
+    } else{
+      try{
+        const isUsernameValid = await isValidUsername(formData.userName)
+        if(!isUsernameValid)
+          formErrors.userName = "Username should be unique"
+      } catch (error) {
+        console.error("Error checking username:", error)
+
+      }
+    }
+
+    // password
+    if(!formData.password){
+      formErrors.password = "password required"
+    }else if (!isValidPassword(formData.password)){
+      formErrors.password = "Password must contain at least 8 characters, including uppercase, lowercase, and numbers"
+    }
+
+    // Send formData to backend for registration
+    console.log(formData);
+
+    if(Object.keys(formErrors).length > 0){
+      setErrors(formErrors)
+    } else {
+      formData.phoneNo = Number(formData.phoneNo)
+      formData.semester = Number(formData.semester)
+      try{
+        const response = await axios.post(`${url}/student/signup`, {
+          formData
+        })
+        console.log(response.data)
+        if(response.status === 201){
+          handleSignin()
+        }
+      } catch (error) {
+        if(error.response && error.response.status === 409){
+          alert("email already exists")
+        }
+        if(error.response.status === 500){
+          alert("error signing up!")
+        }
+      }
+    }
   };
-  // handel forgot password
-  const handleForgotPassword = () => {
-    navigation.navigate("forgetpassword");
+
+  // check for valid email
+  const isValidEmail = (email) => {
+    // Basic email validation regex
+    const emailRegex =  /^[^\s@]+@(?:bmsit\.in|BMSIT\.IN)$/; 
+    return emailRegex.test(email);
   };
+
+  // check for valid password
+  const isValidPassword = (password) => {
+    // Password must contain at least 8 characters, including uppercase, lowercase, and numbers
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  // check username
+  const isValidUsername = async (username) => {
+    try {
+      const response = await axios.post(`${url}/student/checkUsername`, {
+        username: username
+      })
+      console.log(response.data)
+      return response.status === 200
+    } catch(error){
+       if (error.response.status === 400) {
+      // Username is not unique
+      return false;
+    } else {
+      // Other error occurred, log and rethrow
+      console.error("Error checking username:", error);
+      throw error;
+    }
+    }
+  }
+
+  // check phone number
+  const isValidContactNo = (contactNo) => {
+    const contactNoRegex = /^\d{10}$/;
+    return contactNoRegex.test(Number(contactNo));
+  }
+
   // toggle pasword visibility
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
+
   // redirect to register page
   const handleSignin = () => {
     navigation.navigate("Signin");
@@ -77,80 +211,96 @@ const Signup = ({ navigation }) => {
         <TextInput
           style={styles.input}
           placeholder="First Name"
-          onChangeText={(text) => setUsername(text)}
-          value={username}
+          onChangeText={(text) => handleInputChange("firstName", text)}
+          value={formData.firstName}
         />
       </View>
+      {errors.firstName && <Text style={ styles.error } > { errors.firstName } </Text>}
+
       <View style={styles.inputContainer}>
         <Icon name="user" size={20} color="#808080" style={styles.inputIcon} />
         <TextInput
           style={styles.input}
           placeholder="Last Name"
-          onChangeText={(text) => setUsername(text)}
-          value={username}
+          onChangeText={(text) => handleInputChange("lastName", text)}
+          value={formData.lastName}
         />
       </View>
+      {errors.lastName && <Text style={ styles.error } > { errors.lastName } </Text>}
+
       <View style={styles.inputContainer}>
         <Icon name="phone" size={20} color="#808080" style={styles.inputIcon} />
         <TextInput
           style={styles.input}
           placeholder="Contact number"
-          onChangeText={(text) => setUsername(text)}
-          value={username}
+          onChangeText={(text) => handleInputChange("phoneNo", text)}
+          value={formData.phoneNo}
         />
       </View>
+      {errors.phoneNo && <Text style={ styles.error } > { errors.phoneNo } </Text>}
+
       <View style={styles.inputContainer}>
         <Icon name="hashtag" size={20} color="#808080" style={styles.inputIcon} />
         <TextInput
           style={styles.input}
           placeholder="Usn"
-          onChangeText={(text) => setUsername(text)}
-          value={username}
+          onChangeText={(text) => handleInputChange("usn", text)}
+          value={formData.usn}
         />
       </View>
+      {errors.usn && <Text style={ styles.error } > { errors.usn } </Text>}
+
       <View style={styles.inputContainer}>
         <Icon name="building" size={20} color="#808080" style={styles.inputIcon} />
         <TextInput
           style={styles.input}
           placeholder="Department"
-          onChangeText={(text) => setUsername(text)}
-          value={username}
+          onChangeText={(text) => handleInputChange("department", text)}
+          value={formData.department}
         />
       </View>
+      {errors.department && <Text style={ styles.error } > { errors.department } </Text>}
+
       <View style={styles.inputContainer}>
         <Icon name="graduation-cap" size={20} color="#808080" style={styles.inputIcon} />
         <TextInput
           style={styles.input}
           placeholder="Semester"
-          onChangeText={(text) => setUsername(text)}
-          value={username}
+          onChangeText={(text) => handleInputChange("semester", text)}
+          value={formData.semester}
         />
       </View>
+      {errors.semester && <Text style={ styles.error } > { errors.semester } </Text>}
+
       <View style={styles.inputContainer}>
         <Icon name="envelope" size={20} color="#808080" style={styles.inputIcon} />
         <TextInput
           style={styles.input}
           placeholder="Email"
-          onChangeText={(text) => setUsername(text)}
-          value={username}
+          onChangeText={(text) => handleInputChange("email", text)}
+          value={formData.email}
         />
       </View>
+      {errors.email && <Text style={ styles.error } > { errors.email } </Text>}
+
       <View style={styles.inputContainer}>
         <Icon name="user" size={20} color="#808080" style={styles.inputIcon} />
         <TextInput
           style={styles.input}
           placeholder="Username"
-          onChangeText={(text) => setUsername(text)}
-          value={username}
+          onChangeText={(text) => handleInputChange("userName", text)}
+          value={formData.userName}
         />
       </View>
+      {errors.userName && <Text style={ styles.error } > { errors.userName } </Text>}
+
       <View style={styles.inputContainer}>
         <Icon name="lock" size={20} color="#808080" style={styles.inputIcon} />
         <TextInput
           style={styles.input}
           placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
+          onChangeText={(text) => handleInputChange("password", text)}
+          value={formData.password}
           secureTextEntry={!isPasswordVisible}
         />
         <TouchableOpacity onPress={togglePasswordVisibility}>
@@ -162,8 +312,10 @@ const Signup = ({ navigation }) => {
           />
         </TouchableOpacity>
       </View>
+      {errors.password && <Text style={ styles.error } > { errors.password } </Text>}
+
     </View>
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <TouchableOpacity style={styles.button} onPress={handleSignup}>
             <Text style={styles.LoginbuttonText}>Login</Text>
           </TouchableOpacity>
           {/* <TouchableOpacity onPress={handleForgotPassword}>
@@ -213,12 +365,8 @@ const styles = StyleSheet.create({
     height: 200,
     marginLeft: 150,
     borderColor: "black",
-    borderRadius: 100,
-   
-    top:250,
-    
-
-    
+    borderRadius: 100,   
+    top:250,  
   },
   container: {
     flex: 1,
@@ -259,6 +407,11 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
     color: '#000000',
+  },
+  error: {
+    color: "red",
+    marginBottom: 5,
+    alignItems: "flex-start"
   },
 
 });
