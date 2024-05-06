@@ -44,6 +44,7 @@ const Signin = ({ navigation }) => {
           usernameOrEmail,
           password
         })
+        console.log("sdzg")
         console.log("data is there dwtgoib", response)
         if(response.status === 200 && response.data.data.isEmailVerified){
           console.log("ooh")
@@ -54,8 +55,11 @@ const Signin = ({ navigation }) => {
         }
           
       } catch (error) {
-        if(error.response && error.response.status === 409){
-          alert("email already exists")
+        if(error.response && error.response.status === 400){
+          alert(error.response.data.error)
+        }
+        if(error.response && error.response.status === 404){
+          alert(error.response.data.error)
         }
         if(error.response.status === 500){
           alert("error signing up!")

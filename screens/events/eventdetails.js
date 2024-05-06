@@ -72,7 +72,7 @@ const EventDetails= () => {
               style={{ backgroundColor: "white", marginTop: 20, borderRadius: 20 }}
             >
               <Image
-                source={{ uri: event.image_url }}
+                source={{ uri: event.imageUrl }}
                 style={{
                   width: "90%",
                   height: 350,
@@ -91,11 +91,11 @@ const EventDetails= () => {
                 color="#D9104C"
                 style={styles.icon}
               />
-              <Text style={styles.listdate}>{event.date_of_event}</Text>
+              <Text style={styles.listdate}>{event.dateOfEvent}</Text>
             </View>
             <View style={{ flexDirection: "row", marginTop: 10, marginLeft: 10 }}>
               <Ionicons name="time" size={30} color="#D9104C" style={styles.icon} />
-              <Text style={styles.listdate}>{event.time_of_event}</Text>
+              <Text style={styles.listdate}>{event.timeOfEvent}</Text>
             </View>
             <View style={{ flexDirection: "row", marginTop: 10, marginLeft: 10 }}>
               <Ionicons
@@ -104,7 +104,7 @@ const EventDetails= () => {
                 color="#D9104C"
                 style={styles.icon}
               />
-              <Text style={styles.listdate}>{event.venue}</Text>
+              <Text style={styles.listdate}>{event.location}</Text>
             </View>
             <View style={{ flexDirection: "row", marginTop: 10, marginLeft: 10 }}>
               <Ionicons

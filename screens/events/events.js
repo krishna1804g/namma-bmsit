@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
-import { uri } from "../../constants/globalvariable";
+import url from '../../globalVariable/apiEndpoint'
 import EventDetails from "./eventdetails";
 
 const Events = ({ navigation }) => {
@@ -103,27 +103,29 @@ const Events = ({ navigation }) => {
   }, []);
 
   const eventsDetail = () => {
-    // axios
-    //   .get(`${uri}/get/events`)
-    //   .then((resp) => {
-    //     const response = resp.data;
-    //     console.log(response);
-    //     if (Array.isArray(response)) {
-    //       setAllDeptEvents(response);
-    //       setFilteredEvents(response);
-    //     } else {
-    //       const result = [resp.data];
-    //       setAllDeptEvents(result);
-    //       setFilteredEvents(result);
-    //     }
-    //   })
-    //   .catch((e) => {
-    //     console.error(e);
-    //   });
+    axios
+      .get(`${url}/event/`)
+      .then((resp) => {
+        const response = resp.data;
+        console.log(response);
+        // if (Array.isArray(response)) {
+        //   setAllDeptEvents(response);
+        //   setFilteredEvents(response);
+        // } else {
+        //   const result = [resp.data];
+        //   setAllDeptEvents(result);
+        //   setFilteredEvents(result);
+        // }
+        setAllEvents(response.event);
+        setFilteredEvents(response.event);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
-  // useEffect(() => {
-  //   eventsDetail(); // Call the function eventsDetail() with parentheses to invoke it
-  // }, []);
+  useEffect(() => {
+    eventsDetail(); // Call the function eventsDetail() with parentheses to invoke it
+  }, []);
 
   const handleEventPress = (event) => {
     navigation.navigate("EventDetails", { event }); // Navigate to EventDetailsScreen
@@ -137,7 +139,7 @@ const Events = ({ navigation }) => {
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Image
-            source={{ uri: event.image_url }}
+            source={{ uri: event.imageUrl }}
             style={{
               width: 100,
               height: 100,
@@ -150,7 +152,7 @@ const Events = ({ navigation }) => {
             style={{ flex: 1, justifyContent: "flex-start", marginLeft: 10 }}
           >
             <Text style={styles.listtitle}>{event.title}</Text>
-            <Text style={styles.listdate}> Date: {event.date_of_event}</Text>
+            <Text style={styles.listdate}> Date: {event.dateOfEvent}</Text>
           </View>
 
           <TouchableOpacity
