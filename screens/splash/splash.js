@@ -7,10 +7,12 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { images } from '../../constants';
+import { useNavigation} from "@react-navigation/native";
 
 const SPLASH_SCREEN_DURATION = 4000; // in milliseconds
 
-const Splash = ({ navigation }) => {
+const Splash = () => {
+  const navigation = useNavigation();
   const animation = React.useRef(new Animated.Value(0)).current;
 
   useEffect(() => {

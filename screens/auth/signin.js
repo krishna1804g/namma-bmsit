@@ -25,16 +25,16 @@ const Signin = ({ navigation }) => {
 
 
   const handleLogin = async () => {
-    let formErrors = {};
+    // let formErrors = {};
 
-    // Check if username or email is filled
-    if (!usernameOrEmail) {
-      formErrors.usernameOrEmail = "Username or email is required";
-    }
-    // Check if password is filled
-    if (!password) {
-      formErrors.password = "Password is required";
-    }
+    // // Check if username or email is filled
+    // if (!usernameOrEmail) {
+    //   formErrors.usernameOrEmail = "Username or email is required";
+    // }
+    // // Check if password is filled
+    // if (!password) {
+    //   formErrors.password = "Password is required";
+    // }
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);

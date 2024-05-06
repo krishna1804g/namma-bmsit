@@ -19,40 +19,42 @@ const EventDetails= () => {
   const [isEventBooked, setIsEventBooked] = useState(false); // Track booking status
 
   const getAppliedEventsIds = () => {
-    axios
-      .get(`${uri}/get/participant/eventsIds`)
-      .then((resp) => {
-        const appliedEventIds = resp.data;
-        if (appliedEventIds.includes(event.id)) {
-          setIsEventBooked(true); // Set booked state if the event is in appliedEventIds
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+    // axios
+    //   .get(`${uri}/get/participant/eventsIds`)
+    //   .then((resp) => {
+    //     const appliedEventIds = resp.data;
+    //     if (appliedEventIds.includes(event.id)) {
+    //       setIsEventBooked(true); // Set booked state if the event is in appliedEventIds
+    //     }
+    //   })
+    //   .catch((e) => {
+    //     console.error(e);
+    //   });
   };
 
-  useEffect(() => {
-    getAppliedEventsIds();
-  }, []);
+  // useEffect(() => {
+  //   getAppliedEventsIds();
+  // }, []);
 
-  const handleEventPress = (eventId) => {
-    if (isEventBooked) {
-      // Show an alert that the event is already booked
-      alert("You have already booked this event.");
-    } else {
-      axios
-        .post(`${uri}/apply/event`, {
-          event_id: eventId,
-        })
-        .then((resp) => {
-          console.log(resp.data);
-          setIsEventBooked(true); // Update the booked state
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-    }
+  const handleEventPress = () => {
+    // if (isEventBooked) {
+    //   // Show an alert that the event is already booked
+    //   alert("You have already booked this event.");
+    // } else {
+    //   axios
+    //     .post(`${uri}/apply/event`, {
+    //       event_id: eventId,
+    //     })
+    //     .then((resp) => {
+    //       console.log(resp.data);
+    //       setIsEventBooked(true); // Update the booked state
+    //     })
+    //     .catch((e) => {
+    //       console.error(e);
+    //     });
+    // }
+    
+   navigation.navigate("BookEvents", { event } );
   };
   return (
     <View style={{ marginBottom: 20 }}>
@@ -171,6 +173,7 @@ const EventDetails= () => {
             >
               <Text style={styles.book}>{isEventBooked ? "Booked" : "BOOK"}</Text>
             </TouchableOpacity>
+             
         </View>
       </ScrollView>
     </View>
