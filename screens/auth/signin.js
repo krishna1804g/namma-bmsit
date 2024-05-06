@@ -25,43 +25,44 @@ const Signin = ({ navigation }) => {
 
 
   const handleLogin = async () => {
-    let formErrors = {};
+    // let formErrors = {};
 
-    // Check if username or email is filled
-    if (!usernameOrEmail) {
-      formErrors.usernameOrEmail = "Username or email is required";
-    }
-    // Check if password is filled
-    if (!password) {
-      formErrors.password = "Password is required";
-    }
+    // // Check if username or email is filled
+    // if (!usernameOrEmail) {
+    //   formErrors.usernameOrEmail = "Username or email is required";
+    // }
+    // // Check if password is filled
+    // if (!password) {
+    //   formErrors.password = "Password is required";
+    // }
 
-    if (Object.keys(formErrors).length > 0) {
-      setErrors(formErrors);
-    } else {
-      try{
-        const response = await axios.post(`${url}/student/signin`, {
-          usernameOrEmail,
-          password
-        })
-        console.log("data is there dwtgoib", response)
-        if(response.status === 200 && response.data.data.isEmailVerified){
-          console.log("ooh")
-          navigation.navigate("Parent");
-        }
-        else if(response.status === 200 && !response.data.isEmailVerified){
-          // otp code
-        }
+    // if (Object.keys(formErrors).length > 0) {
+    //   setErrors(formErrors);
+    // } else {
+    //   try{
+    //     const response = await axios.post(`${url}/student/signin`, {
+    //       usernameOrEmail,
+    //       password
+    //     })
+    //     console.log("data is there dwtgoib", response)
+    //     if(response.status === 200 && response.data.data.isEmailVerified){
+    //       console.log("ooh")
+    //       navigation.navigate("Parent");
+    //     }
+    //     else if(response.status === 200 && !response.data.isEmailVerified){
+    //       // otp code
+    //     }
           
-      } catch (error) {
-        if(error.response && error.response.status === 409){
-          alert("email already exists")
-        }
-        if(error.response.status === 500){
-          alert("error signing up!")
-        }
-      }
-    }
+    //   } catch (error) {
+    //     if(error.response && error.response.status === 409){
+    //       alert("email already exists")
+    //     }
+    //     if(error.response.status === 500){
+    //       alert("error signing up!")
+    //     }
+    //   }
+    // }
+    navigation.navigate("Parent");
   };
 
   // handel forgot password

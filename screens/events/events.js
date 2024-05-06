@@ -12,11 +12,19 @@ import {
   RefreshControl,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { 
+  COLORS,
+  FONTS,
+  SIZES,
+  dummyData
+} from '../../constants'
 import axios from "axios";
 import { uri } from "../../constants/globalvariable";
 import EventDetails from "./eventdetails";
+import { useNavigation} from "@react-navigation/native";
 
-const Events = ({ navigation }) => {
+const Events = () => {
+  const navigation = useNavigation();
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [selectedClub, setSelectedClub] = useState(null);
   const [allEvents, setAllEvents] = useState([]);
@@ -52,60 +60,13 @@ const Events = ({ navigation }) => {
     setSelectedClub(null);
   };
   // Define a static event object
-  const event = [
-    {
-      _id: "1",
-      title: "Sample Event",
-      date_of_event: "2024-05-03",
-      time_of_event:"9:00 AM",
-      venue:"kutira",
-      amount:"free",
-      image_url:
-        "https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15-1024x768.jpg",
-      description: "This is a sample event description.",
-      team_size:"4",
-      total_participants:"200"
-    },
+  
 
-    {
-      _id: "2",
-      title: "Sample Event 2",
-      date_of_event: "2024-05-03",
-      image_url:
-        "https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15-1024x768.jpg",
-      description: "This is a sample event description.",
-    },
-    {
-      _id: "3",
-      title: "Sample Event 2",
-      date_of_event: "2024-05-03",
-      image_url:
-        "https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15-1024x768.jpg",
-      description: "This is a sample event description.",
-    },
-    {
-      _id: "4",
-      title: "Sample Event 2",
-      date_of_event: "2024-05-03",
-      image_url:
-        "https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15-1024x768.jpg",
-      description: "This is a sample event description.",
-    },
-    {
-      _id: "5",
-      title: "Sample Event 2",
-      date_of_event: "2024-05-03",
-      image_url:
-        "https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15-1024x768.jpg",
-      description: "This is a sample event description.",
-    },
-  ];
-
-  useEffect(() => {
-    // 
-    setAllEvents(event);
-    setFilteredEvents(event);
-  }, []);
+  // useEffect(() => {
+  //   // 
+  //   setAllEvents(event);
+  //   setFilteredEvents(event);
+  // }, []);
 
   const eventsDetail = () => {
     // axios
@@ -134,7 +95,7 @@ const Events = ({ navigation }) => {
     navigation.navigate("EventDetails", { event }); // Navigate to EventDetailsScreen
   };
 
-  const EventCard = ({ event, navigation }) => {
+  const EventCard = ({ event}) => {
     return (
       <TouchableOpacity
         style={styles.card}
@@ -249,7 +210,7 @@ const Events = ({ navigation }) => {
           <EventDetailsScreen event={selectedEvent} />
         ) : ( */}
           <FlatList
-            data={filteredEvents}
+            data={dummyData.event}
             showsVerticalScrollIndicator={false}
             renderItem={renderEventCard}
             keyExtractor={(item,index) => index.toString()}
@@ -279,7 +240,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   headerTitle: {
-    fontSize: 25,
+    ...FONTS.h2,
     color: "#000",
 
     marginTop: 20,
