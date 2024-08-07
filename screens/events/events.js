@@ -212,7 +212,7 @@ const Events = () => {
           <EventDetailsScreen event={selectedEvent} />
         ) : ( */}
           <FlatList
-            data={dummyData.event}
+            data={filteredEvents}
             showsVerticalScrollIndicator={false}
             renderItem={renderEventCard}
             keyExtractor={(item,index) => index.toString()}

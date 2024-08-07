@@ -15,6 +15,12 @@ const Bookevent = () => {
   const route = useRoute();
   const { event } = route.params; // Access the passed event parameter
 
+  const [bookingData, setBookingData] = useState({
+    teamName: "",
+    studentId: "",
+    studentUsn: [],
+    eventId: event.id
+  })
   // State variables for team name and team members
   const [teamName, setTeamName] = useState("");
   const [teamLeader, setTeamLeader] = useState("");
@@ -70,10 +76,10 @@ const Bookevent = () => {
         {/* Button to add a new input box for team members */}
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.label}>
-            PLEASE ADD YOUR {event.team_size > 1 ? event.team_size - 1 : 0} TEAM
+            PLEASE ADD YOUR {event.perTeamParticipants > 1 ? event.perTeamParticipants - 1 : 0} TEAM
             MEMBERS
           </Text>
-          {teamMembers.length < event.team_size - 1 && (
+          {teamMembers.length < event.perTeamParticipants - 1 && (
             <TouchableOpacity
               onPress={addTeamMemberInput}
               style={styles.addButton}

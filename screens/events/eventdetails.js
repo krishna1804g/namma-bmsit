@@ -37,24 +37,14 @@ const EventDetails= () => {
   // }, []);
 
   const handleEventPress = () => {
-    // if (isEventBooked) {
-    //   // Show an alert that the event is already booked
-    //   alert("You have already booked this event.");
-    // } else {
-    //   axios
-    //     .post(`${uri}/apply/event`, {
-    //       event_id: eventId,
-    //     })
-    //     .then((resp) => {
-    //       console.log(resp.data);
-    //       setIsEventBooked(true); // Update the booked state
-    //     })
-    //     .catch((e) => {
-    //       console.error(e);
-    //     });
-    // }
+    if (isEventBooked) {
+      // Show an alert that the event is already booked
+      alert("You have already booked this event.");
+    } 
+    else {
+      navigation.navigate("BookEvents", { event } );
+    }
     
-   navigation.navigate("BookEvents", { event } );
   };
   return (
     <View style={{ marginBottom: 20 }}>
@@ -169,7 +159,7 @@ const EventDetails= () => {
                 alignSelf: "center",
                 marginBottom: 20,
               }}
-              onPress={() => handleEventPress(event.id)}
+              onPress={() => handleEventPress(event)}
             >
               <Text style={styles.book}>{isEventBooked ? "Booked" : "BOOK"}</Text>
             </TouchableOpacity>
